@@ -10,9 +10,11 @@ import build_adjacency as build_adj
 import power 
 import equations
 from scipy.optimize import *
+import build_jacobian as build_jac
+import newthon_method 
 
 
-#from math import cos, sin
+from math import cos, sin
 #from scipy.optimize import *
 
 #==================================================================================================#
@@ -29,7 +31,9 @@ from scipy.optimize import *
    # Reactive Load Power at bus i -- q_load
    # Bus Shunt -- shunt_bus
      
-file_bus = "proudBUS.txt"  
+file_bus = "proudBUS.txt" 
+#file_bus = "barras.txt"  
+#file_bus = "sistema2barras_PQ.txt"    
 id_bus,type_bus,theta_bus,v_bus,p_inj,q_inj,p_load,q_load,shunt_bus = np.loadtxt(file_bus, unpack=True )
 num_bus = id_bus.size
 # Data branch are set out as shown below: 
@@ -42,6 +46,7 @@ num_bus = id_bus.size
    # shunt of branch     -- shunt_bran
    
 file_bran = "proudBRAN.txt"  
+#file_bran = "linha.txt"  
 bi_bran, bf_bran,r_bran, x_bran, shunt_bran =   np.loadtxt(file_bran, unpack=True,ndmin=2 ) 
 
 # If there's only one bus, Python interpret it as a scalar and not as an array, so in order to
@@ -73,9 +78,11 @@ p_net = p_inj - p_load
 q_net = q_inj - q_load
 
 x_initial =  np.zeros((2*num_bus)) 
-x_initial[0:num_bus] = v_bus
-x_initial[num_bus:2*num_bus] = theta_bus
+x_initial[0:num_bus] = theta_bus
+x_initial[num_bus:2*num_bus] = v_bus 
 
 
-vet_sol = fsolve(equations.system_equations,x_initial) 
+vet_sol_fsolve = fsolve(equations.system_equations,x_initial) 
+
+vet_sol_newton= newthon_method.fnewton(x_initial)
 

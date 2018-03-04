@@ -13,9 +13,10 @@ def system_equations(x):
     import power
        
     vector_eq = np.zeros((2*num_bus))
+
     
-    v=x[0:num_bus]
-    theta=x[num_bus:2*num_bus]
+    theta=x[0:num_bus]
+    v=x[num_bus:2*num_bus]
     
     p_bran, q_bran = power.calculate_power(num_bus,theta,v,Y,List_Adj)
     
@@ -27,8 +28,8 @@ def system_equations(x):
     vector_eq[bus_PQ] = p_net[bus_PQ] -  p_bran[bus_PQ]   
     vector_eq[bus_PQ+num_bus] =  q_net[bus_PQ]-q_bran[bus_PQ]  
     
-    vector_eq[bus_slack] = v[bus_slack] - v_bus[bus_slack]    
-    vector_eq[bus_slack+num_bus] = theta[bus_slack] - theta_bus[bus_slack]
+    vector_eq[bus_slack] =   theta[bus_slack] - theta_bus[bus_slack]
+    vector_eq[bus_slack+num_bus] = v[bus_slack] - v_bus[bus_slack]   
     
     
     

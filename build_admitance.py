@@ -18,7 +18,7 @@ def admitance_matrix(bi_bran,bf_bran,r_bran, x_bran, shunt_bran,num_bus,num_bran
         m = int(bf_bran[index])-1
 
         x= x_bran[index]
-        brsh = shunt_bran[index]/2 #the division by 2 depends of the way the datas were set out
+        brsh = shunt_bran[index] #the division by 2 depends of the way the datas were set out
 
         g = r / (r**2 + x**2)
         b = -x / (r**2 + x**2)
